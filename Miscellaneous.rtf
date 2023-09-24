@@ -1,0 +1,165 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2709
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 Times-Roman;\f2\froman\fcharset0 Times-Bold;
+\f3\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}}
+\paperw11900\paperh16840\margl1440\margr1440\vieww11520\viewh8260\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 React is a client side JS library to develop reactive/fluid web pages.It is mostly a UI focused component based UI library but other libraries can also be added to it, like routing.\
+React alternative cue is in mid of angular and react. Angular more feature than react but heavy too.\
+\
+Let, const was introduced with es6 where let is for changing variables\
+Arrow function are used over normal functions when we don\'92t want to change the context of this while calling it\
+\
+JSX stands for javascript xml(html)\
+\
+Older react projects needed to import React in every component/where jsx is used\
+\
+React will render all components, even if a component has component it will render that and finally comes back to the root JSX, renders that too. This is a one time process\
+\
+In react when rendering list we should always give value to key attribute for the component else this will lead to state reset for every component when new component is added, performances issues3\
+\
+CSS styles sheets can be used to create unique classnames/identfier for css styles as all the css styles in react are global so this will allow one to not mistakenly create two css styles with same name even though they are in different directory\
+\
+When we start react in dev mode, we can debug the code by putting break points by using browser\'92s dev tools. Since react provide source code too along with the webpack\
+\
+One can use react dev tools too. Simply use the components section in browser dev tools\
+\
+JSX limitation, only one root element for return. Using a div to overcome this may cause extra divs in final Dom which makes no sense, cause issue when one uses nested css styling\
+\
+React portal helps one to decide placement of elements in Dom rendering\
+\
+React ref allows one to create a pointer to Dom elements and work with them\
+\
+In react uncontrolled state is where we directly chang the Dom state like using refs but when we change Dom state indirectly leaving it on react, we call it controlled components, for instance useState\
+\
+useEffectHook is react hook is used to all the task that are termed as side effect in react basically logging, db ops etc\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+
+\f1 \cf0 \expnd0\expndtw0\kerning0
+\
+\'93That is correct, but there are a\'a0
+\f2\b few exceptions
+\f1\b0 \'a0you should be aware of:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls1\ilvl0\cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+You\'a0
+\f2\b DON'T need to add state updating functions
+\f1\b0 \'a0(as we did in the last lecture with\'a0
+\f3\fs26 setFormIsValid
+\f1\fs24 ):\'a0React guarantees that those functions never change, hence you don't need to add them as dependencies (you could though)\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+You also\'a0
+\f2\b DON'T need to add "built-in"\'a0APIs or functions
+\f1\b0 \'a0like\'a0
+\f3\fs26 fetch()
+\f1\fs24 ,\'a0
+\f3\fs26 localStorage
+\f1\fs24 \'a0etc\'a0(functions and features built-into the browser and hence available globally): These browser\'a0APIs / global functions are not related to the React component render cycle and they also never change\
+\ls1\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+You also\'a0
+\f2\b DON'T\'a0need to add variables or functions
+\f1\b0 \'a0you might've\'a0
+\f2\b defined OUTSIDE of your components
+\f1\b0 \'a0(e.g. if you create a new helper function in a separate file):\'a0Such functions or variables also are not created inside of a component function and hence changing them won't affect your components (components won't be re-evaluated if such variables or functions change and vice-versa)\
+\pard\pardeftab720\sa240\partightenfactor0
+\cf0 So long story short:\'a0You must add all "things"\'a0you use in your effect function\'a0
+\f2\b if those "things"\'a0could change because your component (or some parent component)\'a0re-rendered.
+\f1\b0 \'a0That's why variables or state defined in component functions, props or functions defined in component functions have to be added as dependencies!\
+Here's a made-up dummy example to further clarify the above-mentioned scenarios:\
+\pard\pardeftab720\partightenfactor0
+
+\f3\fs26 \cf0 import \{ useEffect, useState \} from 'react';\
+\
+let myTimer;\
+\
+const MyComponent =\'a0(props)\'a0=>\'a0\{\
+  const [timerIsActive, setTimerIsActive] = useState(false);\
+\
+  const \{ timerDuration \} =\'a0props;\'a0// using destructuring to pull out specific props values\
+\
+  useEffect(()\'a0=>\'a0\{\
+    if (!timerIsActive) \{\
+      setTimerIsActive(true);\
+      myTimer =\'a0setTimeout(()\'a0=>\'a0\{\
+        setTimerIsActive(false);\
+      \}, timerDuration);\
+    \}\
+  \}, [timerIsActive, timerDuration]);\
+\};\
+\pard\pardeftab720\sa240\partightenfactor0
+
+\f1\fs24 \cf0 In this example:\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sa240\partightenfactor0
+\ls2\ilvl0
+\f3\fs26 \cf0 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+timerIsActive
+\f1\fs24 \'a0is\'a0
+\f2\b added as a dependency
+\f1\b0 \'a0because it's component state that may change when the component changes (e.g. because the state was updated)\
+\ls2\ilvl0
+\f3\fs26 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+timerDuration
+\f1\fs24 \'a0is\'a0
+\f2\b added as a dependency
+\f1\b0 \'a0because it's a prop value of that component - so it may change if a parent component changes that value (causing this MyComponent component to re-render as well)\
+\ls2\ilvl0
+\f3\fs26 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+setTimerIsActive
+\f1\fs24 \'a0is\'a0
+\f2\b NOT added as a dependency
+\f1\b0 \'a0because it's that\'a0
+\f2\b exception
+\f1\b0 :\'a0State updating functions could be added but don't have to be added since React guarantees that the functions themselves never change\
+\ls2\ilvl0
+\f3\fs26 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+myTimer
+\f1\fs24 \'a0is\'a0
+\f2\b NOT\'a0added as a dependency
+\f1\b0 \'a0because it's\'a0
+\f2\b not a component-internal variable
+\f1\b0 \'a0(i.e. not some state or a prop value) - it's defined outside of the component and changing it (no matter where)\'a0
+\f2\b wouldn't cause the component to be re-evaluated
+\f1\b0 \
+\ls2\ilvl0
+\f3\fs26 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u8226 	}\expnd0\expndtw0\kerning0
+setTimeout
+\f1\fs24 \'a0is\'a0
+\f2\b NOT added as a dependency
+\f1\b0 \'a0because it's\'a0
+\f2\b a built-in API
+\f1\b0 \'a0(built-into the browser) - it's independent from React and your components, it doesn't change\'94\
+\pard\tx566\pardeftab720\sa240\partightenfactor0
+\cf0 \
+Return function or cleanup function in use effect function runs from the second time\
+Use reducer state is helpful when there are multiple states to handle, the states are inter-dependenent.\
+React has context state storage which is component wide so that it can be used by any component without following any long chain/uplifiting.\
+Props for just passing the data through one or two layer or where components get configured out, else just make use of context for multi child component which are often not connected so in that case you would need to uplift the state of props to the nearest connected component\
+React useCallBack is used to save a function and not recreate it every execution\
+So in react state management takes care of creating/recreating and updating the state\
+Let\'92s say there are two state update in the same block then react batches that state updation so basically one scheduled task\
+Class based components cannot use react hooks. They can also coexist with function based component\
+A class based component can only be connected to one context\
+Its always recommended to avoid using ref for Dom manipulation\
+When using useEffect it is not recommended to return async function/promises to useEffect in return. It should be sync.\
+To avoid this we can call the async block/fucntion within a local function or arrow function inside the useEffect function block itself and then return/ use the result of that async function\
+Redux is one central data store for React, like cart items or authentication \
+A rule in redux, Never mutate the existing state rather use it to Crete new\
+Redux toolkit is an easier way to mamange react-redxu\
+General recoomeantadation for loaders is to add them in their required classes not in root or app\
+npm run build for production codes\
+npx create-next-app, way to create next\'92s project\
+Next\'92s projects don\'92t have index.html file \'91cause it does dynamic pre-rendering via server side rendering\
+In nextjs filename are used as url path name \
+Always use hooks at root level of component fucntion\
+One issue with css animations is that all the contents are present in the Dom, it\'92s just that they are hidden by means of css\
+React router transition, react-motion, react-move arre some other animation lib\
+React context can\'92t be used for high frequency element changes and also unoptimized for big projects as it reloads state for all the components making use of context even though they don\'92t use it\
+Jest generally used for js testing\
+npm install typescript to install typescript \
+npx tic is compile command for typescript \
+Use tax extension when the file has jsx content too}

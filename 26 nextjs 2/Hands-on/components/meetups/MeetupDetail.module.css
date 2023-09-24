@@ -1,0 +1,7 @@
+/* naming css files like the filename  these css styles will be scoped to the componenent which imports it*/
+.detail {
+    text-align: center;
+}
+.detail img{
+    width: 100%;
+}

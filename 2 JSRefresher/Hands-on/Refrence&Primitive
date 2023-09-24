@@ -1,0 +1,11 @@
+//since in js object/arrays are of refrence types so to ensure immutability use spread operators
+
+const per={
+    na:"ma"
+}
+
+const pern=per //this is mutable if changes in per
+
+const perm={ //this is immutable
+    ...per
+}
